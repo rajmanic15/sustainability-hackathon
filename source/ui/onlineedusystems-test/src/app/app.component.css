@@ -1,0 +1,97 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.title{
+  display: flex;
+  align-items: center;
+}
+.mat-toolbar{
+  color: white;
+  background-color: rgb(71, 70, 70);
+  height:60px
+}
+
+.mat-button{
+  color: white;
+}
+
+.mat-raised-button{
+  color: white;
+}
+.mat-icon{
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.collapse{
+  color: white;
+  background-color: rgb(71, 70, 70);
+}
+
+mat-sidenav-container {
+  height: 100vh;
+  width: 100%;
+}
+
+mat-sidenav {
+  background-color: white;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  width: 200px;
+}
+
+.mat-list-item:hover{
+background-color: rgb(175, 171, 171);
+}
+
+mat-sidenav.collapsed {
+  width: 60px;
+}
+
+mat-sidenav-content.content {
+  margin-left: 200px;
+}
+
+mat-sidenav-content.content.collapsed {
+  margin-left: 60px;
+}
+
+
+mat-sidenav-content {
+  margin-left: 200px;
+}
+
+button.mat-icon-button {
+  line-height: inherit;
+}
+
+.mat-menu-panel {
+  z-index: 1000;
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url('~@mdi/font/fonts/materialdesignicons-webfont.eot?v=5.4.55');
+  src: url('~@mdi/font/fonts/materialdesignicons-webfont.eot?#iefix&v=5.4.55') format('embedded-opentype'),
+       url('~@mdi/font/fonts/materialdesignicons-webfont.woff2?v=5.4.55') format('woff2'),
+       url('~@mdi/font/fonts/materialdesignicons-webfont.woff?v=5.4.55') format('woff'),
+       url('~@mdi/font/fonts/materialdesignicons-webfont.ttf?v=5.4.55') format('truetype');
+}
+
+.mat-toolbar-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-toolbar-button {
+  margin-bottom: 10px;
+}
+
+
+
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+

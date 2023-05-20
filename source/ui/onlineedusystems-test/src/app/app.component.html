@@ -1,0 +1,41 @@
+<mat-toolbar class="mat-elevation-z8">
+  <button mat-icon-button class="collapse" (click)="toggleSidenav()">
+    <mat-icon>{{ isCollapsed ? 'menu_open' : 'menu' }}</mat-icon>
+  </button>
+  <span class="title"><mat-icon>eco</mat-icon> EduOnlineSystems (AI Integrated)</span>
+
+  <div class="spacer"></div>
+
+  <button mat-icon-button class="collapse">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+</mat-toolbar>
+
+<ng-container *ngIf="isCollapsed; then showSidenav else showSidenav"></ng-container>
+
+
+<ng-template #showSidenav>
+  <mat-sidenav-container class="container" [hasBackdrop]="isCollapsed ? false : false">
+    <mat-sidenav #sidenav mode="side" [ngClass]="{'collapsed': isCollapsed}" [opened]="true">
+      <mat-nav-list>
+        <a mat-list-item  class="mat-list-item" routerLink="/courses">
+          <mat-icon>book</mat-icon>
+          <span>Courses</span>
+        </a>
+        <a mat-list-item  class="mat-list-item" routerLink="/users">
+          <mat-icon>people</mat-icon>
+          <span>Users</span>
+        </a>
+        <a mat-list-item  class="mat-list-item" routerLink="/exams">
+          <mat-icon>school</mat-icon>
+          <span>Exams</span>
+        </a>
+        
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="content">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-template>

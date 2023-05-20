@@ -1,0 +1,13 @@
+<h2>{{ title }}</h2>
+<h3>{{ subtitle }}</h3>
+<p>{{ content }}</p>
+<ol><li *ngFor="let item of items">{{ item }}</li></ol>
+<img src='assets/datatypes.png'>
+
+<youtube-player
+      [videoId]="id1"
+      (ready)="savePlayer($event)"
+      (change)="onStateChange($event)"
+      class="video"
+    ></youtube-player>
+

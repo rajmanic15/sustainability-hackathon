@@ -1,0 +1,49 @@
+/* Styles for desktop view */
+.testmodule {
+    padding-left: 20px;
+    padding-top: 10px;
+    height: 200px;
+    width: 190px;
+    background-color: white;
+    margin: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    font-size: medium;
+    font-weight: lighter;
+  }
+  
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .my-button {
+    background-color: #2196f3;
+    color: #ffffff;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    height: 40px;
+    justify-content: center;
+  }
+  
+  .my-button:hover {
+    background-color: #0d47a1;
+  }
+  
+  /* Styles for mobile view */
+  @media screen and (max-width: 600px) {
+    .testmodule {
+      width: 100%;
+      margin: 10px;
+    }
+  
+    .my-button {
+      width: 100%;
+      margin-top: 10px;
+      height: auto;
+    }
+  }
+  

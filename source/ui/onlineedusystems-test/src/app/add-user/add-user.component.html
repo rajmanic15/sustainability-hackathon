@@ -1,0 +1,76 @@
+<div class="page-container">
+    <div class="mat-elevation-z8 form-container">
+      <h3 class="usertitle">Edit User</h3>
+  
+      <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput name="name" [(ngModel)]="user.name" #name="ngModel" required>
+            <mat-error *ngIf="name.invalid">Name is required</mat-error>
+          </mat-form-field>
+        </div>
+  
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Role</mat-label>
+            <mat-select name="role" [(ngModel)]="user.role" #role="ngModel" required>
+              <mat-option value="admin">Admin</mat-option>
+              <mat-option value="user">User</mat-option>
+            </mat-select>
+            <mat-error *ngIf="role.invalid">Role is required</mat-error>
+          </mat-form-field>
+        </div>
+  
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-select name="status" [(ngModel)]="user.status" #status="ngModel" required>
+              <mat-option value="active">Active</mat-option>
+              <mat-option value="inactive">Inactive</mat-option>
+            </mat-select>
+            <mat-error *ngIf="status.invalid">Status is required</mat-error>
+          </mat-form-field>
+        </div>
+  
+        <button mat-raised-button color="primary" [disabled]="form.invalid">Submit</button>
+      </form>
+    </div>
+  </div>
+  
+  <style>
+    .page-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+  
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      margin-right: 150px;
+    }
+  
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+  
+    .mat-form-field {
+      width: 300px;
+      align-items: center;
+    }
+  
+    ::ng-deep .mat-select-panel {
+      margin-top: 32px !important;
+    }
+  
+    .usertitle {
+      font-weight: normal;
+    }
+  </style>
+  

@@ -1,0 +1,46 @@
+<div class="dashboard">
+    <div class="card">
+      <!-- Card content goes here -->
+      <div class="progress-text">Exam Progress</div>
+      <div class="pie-chart-container">
+        <ngx-charts-pie-chart
+          class="pie-chart"
+          [view]="view"
+          [results]="data"
+          [gradient]="gradient"
+          [legend]="showLegend"
+          [legendPosition]="legendPosition"
+          [explodeSlices]="explodeSlices"
+          [doughnut]="doughnut"
+          [arcWidth]="arcWidth"
+          (select)="onSelect($event)">
+        </ngx-charts-pie-chart>
+      </div>
+      <div class="legend-container">
+        <div class="legend-item" *ngFor="let item of legendItems">
+          <div class="legend-color" [style.background-color]="item.color"></div>
+          <div class="legend-label">{{ item.label }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+-->
+
+<!--<div class="dashboard">
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title>Online Test Progress</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+        <div class="progress-text">
+          <span>{{ progress }}%</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+-->
+
+<app-popup [title]="'Listening Audio from User....'" [show]="true">
+    <img src="/assets/sound.gif" alt="Loading...">
+      </app-popup>

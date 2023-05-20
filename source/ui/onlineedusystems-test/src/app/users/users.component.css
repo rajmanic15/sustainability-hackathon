@@ -1,0 +1,86 @@
+/* Styles for desktop view */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin-left: 50px;
+  background-color: #f1f1f1;
+  position: fixed;
+}
+
+th {
+  text-align: left;
+  padding: 12px;
+  background-color: #555;
+  color: white;
+  font-weight: lighter;
+}
+
+tr {
+  border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+  background-color: #ddd;
+}
+
+td {
+  padding: 12px;
+}
+
+.usertitle {
+  margin-left: 50px;
+  font-weight: normal;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.add-button {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.circle-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ccc;
+  text-align: center;
+  line-height: 32px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Styles for mobile view */
+@media screen and (max-width: 600px) {
+  table {
+    width: 100%;
+    margin-left: 0;
+    position: static;
+  }
+
+  th,
+  td {
+    padding: 8px;
+  }
+
+  .usertitle {
+    margin-left: 0;
+    text-align: center;
+    display: block;
+  }
+
+  .add-button {
+    margin-left: 0;
+    margin-top: 10px;
+    text-align: center;
+    display: block;
+  }
+
+  .circle-icon {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+  }
+}

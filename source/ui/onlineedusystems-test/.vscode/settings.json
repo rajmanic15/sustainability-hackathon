@@ -1,0 +1,8 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/09601e5e-665f-4de4-9bac-7534a05e7b68/resourceGroups/onlineedusystems/providers/Microsoft.Web/sites/eduonlinesystemspoc",
+    "appService.deploySubpath": "dist\\edu-online-systems",
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ]
+}

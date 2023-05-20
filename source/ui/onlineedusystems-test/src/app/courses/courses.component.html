@@ -1,0 +1,103 @@
+<div>
+
+    <div>
+        <br/>
+        <h3 class="usertitle">Course Details<a mat-list-item [routerLink]="['/adduser']" class="add-button">
+            <button mat-icon-button>
+              <mat-icon class="circle-icon">add</mat-icon>
+            </button>
+          </a></h3>
+       
+        <table mat-table [dataSource]="usersData" class="mat-elevation-z8">
+    
+              <!--- Username Column -->
+          <ng-container matColumnDef="sNo">
+            <th mat-header-cell *matHeaderCellDef> S.No </th>
+            <td mat-cell *matCellDef="let user"> {{user.sNo}} </td>
+          </ng-container>
+    
+          <!--- Username Column -->
+          <ng-container matColumnDef="coursename">
+            <th mat-header-cell *matHeaderCellDef> CourseName </th>
+            <td mat-cell *matCellDef="let user"> {{user.coursename}} </td>
+          </ng-container>
+
+           <!--- Username Column -->
+           <ng-container matColumnDef="coursedescription">
+            <th mat-header-cell *matHeaderCellDef> Course Description </th>
+            <td mat-cell *matCellDef="let user"> {{user.coursedescription}} </td>
+          </ng-container>
+      
+          <!--- Status Column -->
+          <ng-container matColumnDef="coursestartdate">
+            <th mat-header-cell *matHeaderCellDef> Course Start Date </th>
+            <td mat-cell *matCellDef="let user"> {{user.coursestartdate}} </td>
+          </ng-container>
+      
+          <!--- User Role Column -->
+          <ng-container matColumnDef="courseenddate">
+            <th mat-header-cell *matHeaderCellDef> Course End Date </th>
+            <td mat-cell *matCellDef="let user"> {{user.courseenddate}} </td>
+          </ng-container>
+
+             <!--- User Role Column -->
+             <ng-container matColumnDef="isactive">
+                <th mat-header-cell *matHeaderCellDef> IsActive </th>
+                <td mat-cell *matCellDef="let user"> {{user.isactive}} </td>
+              </ng-container>
+    
+           <!--- Edit Column -->
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef>Edit</th>
+            <td mat-cell *matCellDef="let user">
+                <a mat-list-item [routerLink]="['/edituser']">
+              <button mat-icon-button>
+                <mat-icon>edit</mat-icon>
+              </button>
+            </a>
+            </td>
+          </ng-container>
+      
+          <!--- Delete Column -->
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef>Delete</th>
+            <td mat-cell *matCellDef="let user" >
+              <button mat-icon-button><!--(click)="deleteUser(user)">--> 
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="launch">
+            <th mat-header-cell *matHeaderCellDef>Launch</th>
+            <td mat-cell *matCellDef="let user" >
+              <a mat-list-item [routerLink]="['/learner']">
+              <button mat-icon-button><!--(click)="deleteUser(user)">--> 
+                <mat-icon>launch</mat-icon>
+              </button>
+              </a>
+            </td>
+          </ng-container>
+
+          <mat-dialog-content>
+            <div class="recording">
+              <p>Speak your command</p>
+              <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+              <button mat-raised-button color="primary">Stop Recording</button>
+            </div>
+          </mat-dialog-content>
+          
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    
+    </div>
+
+    <app-popup [title]="'Listening Audio from User....'" [show]="showpopup">
+   <img src="/assets/sound.gif" alt="Loading...">
+     </app-popup>
+    
+
+      
