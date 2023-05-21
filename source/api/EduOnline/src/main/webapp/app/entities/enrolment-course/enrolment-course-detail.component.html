@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="enrolmentCourse">
+            <h2><span jhiTranslate="educationApp.enrolmentCourse.detail.title">Enrolment Course</span> {{ enrolmentCourse.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="educationApp.enrolmentCourse.status">Status</span></dt>
+                <dd>
+                    <span>{{ enrolmentCourse.status }}</span>
+                </dd>
+                <dt><span jhiTranslate="educationApp.enrolmentCourse.enrolmentDate">Enrolment Date</span></dt>
+                <dd>
+                    <span>{{ enrolmentCourse.enrolmentDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="educationApp.enrolmentCourse.student">Student</span></dt>
+                <dd>
+                    <div *ngIf="enrolmentCourse.student">
+                        <a [routerLink]="['/student', enrolmentCourse.student?.id, 'view']">{{ enrolmentCourse.student?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="educationApp.enrolmentCourse.course">Course</span></dt>
+                <dd>
+                    <div *ngIf="enrolmentCourse.course">
+                        <a [routerLink]="['/course', enrolmentCourse.course?.id, 'view']">{{ enrolmentCourse.course?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/enrolment-course', enrolmentCourse.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+{
+  "educationApp": {
+    "enrolmentExam": {
+      "home": {
+        "title": "Enrolment Exams",
+        "createLabel": "Create a new Enrolment Exam",
+        "createOrEditLabel": "Create or edit a Enrolment Exam",
+        "notFound": "No Enrolment Exams found"
+      },
+      "created": "A new Enrolment Exam is created with identifier {{ param }}",
+      "updated": "A Enrolment Exam is updated with identifier {{ param }}",
+      "deleted": "A Enrolment Exam is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Enrolment Exam {{ id }}?"
+      },
+      "detail": {
+        "title": "Enrolment Exam"
+      },
+      "status": "Status",
+      "enrolmentDate": "Enrolment Date",
+      "student": "Student",
+      "course": "Course"
+    }
+  }
+}

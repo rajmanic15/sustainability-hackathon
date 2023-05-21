@@ -1,0 +1,50 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "education",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "6.10.5",
+    "applicationType": "monolith",
+    "baseName": "education",
+    "packageName": "education",
+    "packageFolder": "education",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "postgresql",
+    "messageBroker": false,
+    "buildTool": "gradle",
+    "jwtSecretKey": "M2EwM2Q2OTViZmFiMjE5NmVmNTgzOTY0NTU5ZWFkNTk3N2ExZTEyZTlhNmFiYzA2ZDU2NjVlMjlhN2FmZTcwNjAyOGEzZmJhZThlMDJjZmJmNzMzZWEyZmNhNjk4YmY5N2QzZDM3ZDI5NWVhZDI5MjYxNTJlMWVkNjA4Y2UwN2U=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "creationTimestamp": 1684068614456,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [
+      {
+        "name": "generator-jhipster-micronaut",
+        "version": "1.0.2"
+      }
+    ],
+    "enableTranslation": true,
+    "nativeLanguage": "en",
+    "languages": ["en"],
+    "blueprints": [
+      {
+        "name": "generator-jhipster-micronaut",
+        "version": "1.0.2"
+      }
+    ]
+  }
+}

@@ -1,0 +1,94 @@
+
+application {
+  config {
+ 
+    prodDatabaseType mysql,
+    clientFramework angular
+  }
+  entities *
+}
+
+
+entity Teacher {
+    qualifications String  required minlength(1) maxlength(500)
+
+}
+
+entity Student {
+    qualifications String  required minlength(1) maxlength(500)
+    age Integer min(10) max(100)
+    grade        Integer  required min(1) max(12)
+    dateOfBirth  Instant  required
+    parentEmail  String   required minlength(5) maxlength(254)
+
+}
+
+entity Course {
+    name        String    required minlength(1) maxlength(50)
+    description String    required minlength(1) maxlength(500)
+    startDate   LocalDate required
+    endDate     LocalDate required
+}
+
+entity Lesson {
+    title       String    required minlength(1) maxlength(50)
+    description String    required minlength(1) maxlength(500)
+    startDate   LocalDate required
+    endDate     LocalDate required
+
+}
+
+entity CourseModule {
+    title       String    required minlength(1) maxlength(50)
+    description String    required minlength(1) maxlength(500)
+    startDate   LocalDate required
+    endDate     LocalDate required
+    
+}
+
+entity Resource {
+    name       String required minlength(1) maxlength(50)
+    type       String required minlength(1) maxlength(50)
+    url        String required minlength(5) maxlength(1000)
+}
+entity TextResource {
+    title       String required minlength(1) maxlength(50)
+    text        TextBlob required 
+}
+
+
+entity Enrolment {
+    enrolmentDate LocalDate required
+}
+
+relationship OneToMany {
+    Course to Lesson{course}
+    Lesson to CourseModule{lesson}
+    CourseModule to Resource{CourseModule} 
+    Course to Teacher{course}  
+  
+}
+
+relationship ManyToOne {
+    Teacher {courses} to Course
+   
+}
+
+relationship OneToOne {
+  Teacher{internalUser} to User
+  Student{internalUser} to User
+  Enrolment{student} to Student
+  Enrolment{course} to Course
+  Resource{textResource} to TextResource
+}
+
+relationship ManyToMany {
+  Student{course required} to Course{student}
+}
+
+dto * with mapstruct
+service * with serviceImpl
+paginate * with pagination except Resource
+paginate Resource with infinite-scroll
+
+

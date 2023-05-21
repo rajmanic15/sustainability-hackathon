@@ -1,0 +1,75 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="educationApp.enrolmentExam.home.title">Enrolment Exams</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-enrolment-exam" [routerLink]="['/enrolment-exam/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span  jhiTranslate="educationApp.enrolmentExam.home.createLabel">
+            Create a new Enrolment Exam
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="enrolmentExams?.length === 0">
+        <span jhiTranslate="educationApp.enrolmentExam.home.notFound">No enrolmentExams found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="enrolmentExams && enrolmentExams.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="educationApp.enrolmentExam.status">Status</span></th>
+                    <th scope="col" ><span jhiTranslate="educationApp.enrolmentExam.enrolmentDate">Enrolment Date</span></th>
+                    <th scope="col" ><span jhiTranslate="educationApp.enrolmentExam.student">Student</span></th>
+                    <th scope="col" ><span jhiTranslate="educationApp.enrolmentExam.course">Course</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let enrolmentExam of enrolmentExams ;trackBy: trackId">
+                    <td><a [routerLink]="['/enrolment-exam', enrolmentExam.id, 'view']">{{ enrolmentExam.id }}</a></td>
+                    <td>{{ enrolmentExam.status }}</td>
+                    <td>{{ enrolmentExam.enrolmentDate | date:'mediumDate' }}</td>
+                    <td>
+                        <div *ngIf="enrolmentExam.student">
+                            <a [routerLink]="['/student', enrolmentExam.student?.id, 'view']" >{{ enrolmentExam.student?.id }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="enrolmentExam.course">
+                            <a [routerLink]="['/course', enrolmentExam.course?.id, 'view']" >{{ enrolmentExam.course?.id }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/enrolment-exam', enrolmentExam.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/enrolment-exam', enrolmentExam.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(enrolmentExam)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+{
+  "educationApp": {
+    "enrolmentCourse": {
+      "home": {
+        "title": "Enrolment Courses",
+        "createLabel": "Create a new Enrolment Course",
+        "createOrEditLabel": "Create or edit a Enrolment Course",
+        "notFound": "No Enrolment Courses found"
+      },
+      "created": "A new Enrolment Course is created with identifier {{ param }}",
+      "updated": "A Enrolment Course is updated with identifier {{ param }}",
+      "deleted": "A Enrolment Course is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Enrolment Course {{ id }}?"
+      },
+      "detail": {
+        "title": "Enrolment Course"
+      },
+      "status": "Status",
+      "enrolmentDate": "Enrolment Date",
+      "student": "Student",
+      "course": "Course"
+    }
+  }
+}

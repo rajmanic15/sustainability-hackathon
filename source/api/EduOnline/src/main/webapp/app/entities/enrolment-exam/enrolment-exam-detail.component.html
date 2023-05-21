@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="enrolmentExam">
+            <h2><span jhiTranslate="educationApp.enrolmentExam.detail.title">Enrolment Exam</span> {{ enrolmentExam.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="educationApp.enrolmentExam.status">Status</span></dt>
+                <dd>
+                    <span>{{ enrolmentExam.status }}</span>
+                </dd>
+                <dt><span jhiTranslate="educationApp.enrolmentExam.enrolmentDate">Enrolment Date</span></dt>
+                <dd>
+                    <span>{{ enrolmentExam.enrolmentDate }}</span>
+                </dd>
+                <dt><span jhiTranslate="educationApp.enrolmentExam.student">Student</span></dt>
+                <dd>
+                    <div *ngIf="enrolmentExam.student">
+                        <a [routerLink]="['/student', enrolmentExam.student?.id, 'view']">{{ enrolmentExam.student?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="educationApp.enrolmentExam.course">Course</span></dt>
+                <dd>
+                    <div *ngIf="enrolmentExam.course">
+                        <a [routerLink]="['/course', enrolmentExam.course?.id, 'view']">{{ enrolmentExam.course?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/enrolment-exam', enrolmentExam.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+version: '2'
+services:
+  education-postgresql:
+    image: postgres:12.3
+    # volumes:
+    #     - ~/volumes/jhipster/education/postgresql/:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=education
+      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - 5432:5432
