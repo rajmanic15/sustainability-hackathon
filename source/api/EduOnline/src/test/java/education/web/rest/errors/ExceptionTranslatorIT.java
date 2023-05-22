@@ -1,6 +1,6 @@
 package education.web.rest.errors;
 
-import education.EducationApp;
+import education.EduOnlineApp;
 import education.web.rest.errors.handlers.ProblemHandler;
 import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpRequest;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Integration tests exception conditions.
  */
-@MicronautTest(application = EducationApp.class)
+@MicronautTest(application = EduOnlineApp.class)
 public class ExceptionTranslatorIT {
 
     @Inject @Client("/")

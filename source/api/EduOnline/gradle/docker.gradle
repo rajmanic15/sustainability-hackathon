@@ -3,7 +3,7 @@ dockerfile {
     args("-Xmx128m")
 }
 dockerBuild {
-    images = ["education:$project.version", "education:latest"]
+    images = ["eduOnline:$project.version", "eduOnline:latest"]
 }
 
 task copyIntoLayers (type: Copy) {
@@ -21,5 +21,5 @@ nativeImage {
     args('--static')
 }
 dockerBuildNative {
-    images = ["education:$project.version", "education:latest"]
+    images = ["eduOnline:$project.version", "eduOnline:latest"]
 }

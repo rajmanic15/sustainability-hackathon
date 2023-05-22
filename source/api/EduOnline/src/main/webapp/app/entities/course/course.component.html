@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="educationApp.course.home.title">Courses</span>
+        <span jhiTranslate="eduOnlineApp.course.home.title">Courses</span>
 
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-course" [routerLink]="['/course/new']">
             <fa-icon icon="plus"></fa-icon>
-            <span  jhiTranslate="educationApp.course.home.createLabel">
+            <span  jhiTranslate="eduOnlineApp.course.home.createLabel">
             Create a new Course
             </span>
         </button>
@@ -15,19 +15,18 @@
     <jhi-alert></jhi-alert>
 
     <div class="alert alert-warning" id="no-result" *ngIf="courses?.length === 0">
-        <span jhiTranslate="educationApp.course.home.notFound">No courses found</span>
+        <span jhiTranslate="eduOnlineApp.course.home.notFound">No courses found</span>
     </div>
 
     <div class="table-responsive" id="entities" *ngIf="courses && courses.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr>
-                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="educationApp.course.name">Name</span></th>
-                    <th scope="col" ><span jhiTranslate="educationApp.course.description">Description</span></th>
-                    <th scope="col" ><span jhiTranslate="educationApp.course.startDate">Start Date</span></th>
-                    <th scope="col" ><span jhiTranslate="educationApp.course.endDate">End Date</span></th>
-                    <th scope="col" ><span jhiTranslate="educationApp.course.isActive">Is Active</span></th>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="name"><span jhiTranslate="eduOnlineApp.course.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="description"><span jhiTranslate="eduOnlineApp.course.description">Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="startDate"><span jhiTranslate="eduOnlineApp.course.startDate">Start Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="endDate"><span jhiTranslate="eduOnlineApp.course.endDate">End Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -38,7 +37,6 @@
                     <td>{{ course.description }}</td>
                     <td>{{ course.startDate | date:'mediumDate' }}</td>
                     <td>{{ course.endDate | date:'mediumDate' }}</td>
-                    <td>{{ course.isActive }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
@@ -65,5 +63,15 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div *ngIf="courses && courses.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
     </div>
 </div>

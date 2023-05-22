@@ -75,7 +75,7 @@ import { fontAwesomeIcons } from './icons/font-awesome-icons';
     },
   ],
 })
-export class EducationCoreModule {
+export class EduOnlineCoreModule {
   constructor(iconLibrary: FaIconLibrary, dpConfig: NgbDatepickerConfig, languageService: JhiLanguageService) {
     registerLocaleData(locale);
     iconLibrary.addIcons(...fontAwesomeIcons);

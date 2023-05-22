@@ -11,6 +11,10 @@ import { IStudent, Student } from 'app/shared/model/student.model';
 import { StudentService } from './student.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { ICourse } from 'app/shared/model/course.model';
+import { CourseService } from 'app/entities/course/course.service';
+
+type SelectableEntity = IUser | ICourse;
 
 @Component({
   selector: 'jhi-student-update',
@@ -19,19 +23,24 @@ import { UserService } from 'app/core/user/user.service';
 export class StudentUpdateComponent implements OnInit {
   isSaving = false;
   users: IUser[] = [];
+  courses: ICourse[] = [];
 
   editForm = this.fb.group({
     id: [],
+    name: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
+    qualifications: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],
     age: [null, [Validators.min(10), Validators.max(100)]],
     grade: [null, [Validators.required, Validators.min(1), Validators.max(12)]],
     dateOfBirth: [null, [Validators.required]],
     parentEmail: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(254)]],
-    internalUser: [],
+    internalUserId: [],
+    courses: [null, Validators.required],
   });
 
   constructor(
     protected studentService: StudentService,
     protected userService: UserService,
+    protected courseService: CourseService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -46,17 +55,22 @@ export class StudentUpdateComponent implements OnInit {
       this.updateForm(student);
 
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
+
+      this.courseService.query().subscribe((res: HttpResponse<ICourse[]>) => (this.courses = res.body || []));
     });
   }
 
   updateForm(student: IStudent): void {
     this.editForm.patchValue({
       id: student.id,
+      name: student.name,
+      qualifications: student.qualifications,
       age: student.age,
       grade: student.grade,
       dateOfBirth: student.dateOfBirth ? student.dateOfBirth.format(DATE_TIME_FORMAT) : null,
       parentEmail: student.parentEmail,
-      internalUser: student.internalUser,
+      internalUserId: student.internalUserId,
+      courses: student.courses,
     });
   }
 
@@ -78,13 +92,16 @@ export class StudentUpdateComponent implements OnInit {
     return {
       ...new Student(),
       id: this.editForm.get(['id'])!.value,
+      name: this.editForm.get(['name'])!.value,
+      qualifications: this.editForm.get(['qualifications'])!.value,
       age: this.editForm.get(['age'])!.value,
       grade: this.editForm.get(['grade'])!.value,
       dateOfBirth: this.editForm.get(['dateOfBirth'])!.value
         ? moment(this.editForm.get(['dateOfBirth'])!.value, DATE_TIME_FORMAT)
         : undefined,
       parentEmail: this.editForm.get(['parentEmail'])!.value,
-      internalUser: this.editForm.get(['internalUser'])!.value,
+      internalUserId: this.editForm.get(['internalUserId'])!.value,
+      courses: this.editForm.get(['courses'])!.value,
     };
   }
 
@@ -104,7 +121,18 @@ export class StudentUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IUser): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: ICourse[], option: ICourse): ICourse {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

@@ -1,5 +1,5 @@
 package education.service.mapper;
-import education.EducationApp;
+import education.EduOnlineApp;
 import education.domain.User;
 import education.service.dto.UserDTO;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Integration tests for {@link UserMapper}.
  */
-@MicronautTest(application = EducationApp.class)
+@MicronautTest(application = EduOnlineApp.class)
 public class UserMapperIT {
 
     private static final String DEFAULT_LOGIN = "johndoe";

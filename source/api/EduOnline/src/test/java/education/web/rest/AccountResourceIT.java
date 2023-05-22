@@ -1,6 +1,6 @@
 package education.web.rest;
 
-import education.EducationApp;
+import education.EduOnlineApp;
 import education.config.Constants;
 import education.domain.Authority;
 import education.domain.User;
@@ -42,7 +42,7 @@ import static org.mockito.Mockito.*;
 /**
  * Integration tests for the {@link AccountResource} REST controller.
  */
-@MicronautTest(application = EducationApp.class, transactional = false)
+@MicronautTest(application = EduOnlineApp.class, transactional = false)
 @Property(name = "micronaut.security.enabled", value = "false")
 public class AccountResourceIT {
 

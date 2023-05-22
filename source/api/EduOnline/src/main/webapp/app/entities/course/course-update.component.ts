@@ -23,7 +23,6 @@ export class CourseUpdateComponent implements OnInit {
     description: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(500)]],
     startDate: [null, [Validators.required]],
     endDate: [null, [Validators.required]],
-    isActive: [],
   });
 
   constructor(protected courseService: CourseService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -41,7 +40,6 @@ export class CourseUpdateComponent implements OnInit {
       description: course.description,
       startDate: course.startDate,
       endDate: course.endDate,
-      isActive: course.isActive,
     });
   }
 
@@ -67,7 +65,6 @@ export class CourseUpdateComponent implements OnInit {
       description: this.editForm.get(['description'])!.value,
       startDate: this.editForm.get(['startDate'])!.value,
       endDate: this.editForm.get(['endDate'])!.value,
-      isActive: this.editForm.get(['isActive'])!.value,
     };
   }
 

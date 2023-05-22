@@ -1,5 +1,5 @@
 package education.security;
-import education.EducationApp;
+import education.EduOnlineApp;
 import education.domain.User;
 import education.repository.UserRepository;
 import education.security.PasswordEncoder;
@@ -21,7 +21,7 @@ import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@MicronautTest(application = EducationApp.class)
+@MicronautTest(application = EduOnlineApp.class)
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DomainUserDetailsServiceIT {

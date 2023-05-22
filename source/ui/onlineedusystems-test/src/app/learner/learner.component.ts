@@ -13,11 +13,17 @@ export class LearnerComponent implements OnInit {
   content = [
     { id:'1',title: 'C# Programming', subtitle: 'Variables', 
     content: 'A variable is a name of memory location. It is used to store data. Its value can be changed and it can be reused many times. It is a way to represent memory location through symbol so that it can be easily identified.',
-     imageUrl: 'https://example.com/image1.jpg',
+     imageUrl: 'assets/datatypes.png',
     items:['Decimal types','Boolean types','Integral types','Floating point types','Nullable types'] },
 
-    { id:'2',title: 'Page 2', subtitle: 'Subtitle 2', content: 'Content 2', imageUrl: 'https://example.com/image2.jpg' ,items:['cccc']},
-    {  id:'3',title: 'Page 3', subtitle: 'Subtitle 3', content: 'Content 3', imageUrl: 'https://example.com/image3.jpg', items:['cccc']},
+    { id:'2',title: 'C# Programming', subtitle: 'Loops', 
+    content: 'Looping in a programming language is a way to execute a statement or a set of statements multiple times depending on the result of the condition to be evaluated to execute statements. The result condition should be true to execute statements within loops',
+     imageUrl: 'assets/php-while-loop.jpg',
+    items:['For Loop','While Loop','Do While Loop','ForEach Loop'] },
+    { id:'1',title: 'C# Programming', subtitle: 'Variables', 
+    content: 'A variable is a name of memory location. It is used to store data. Its value can be changed and it can be reused many times. It is a way to represent memory location through symbol so that it can be easily identified.',
+     imageUrl: 'https://example.com/image1.jpg',
+    items:['Decimal types','Boolean types','Integral types','Floating point types','Nullable types'] },
     // ...
   ];
   pageIndex = 0;

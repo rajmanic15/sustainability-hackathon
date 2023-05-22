@@ -1,6 +1,6 @@
 package education.web.rest;
 
-import education.EducationApp;
+import education.EduOnlineApp;
 import education.domain.User;
 import education.repository.UserRepository;
 import education.web.rest.vm.LoginVM;
@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Integration tests for the {@link io.micronaut.security.endpoints.LoginController} REST controller.
  */
-@MicronautTest(application = EducationApp.class, transactional = false)
+@MicronautTest(application = EduOnlineApp.class, transactional = false)
 public class UserJWTControllerIT {
 
     @Inject

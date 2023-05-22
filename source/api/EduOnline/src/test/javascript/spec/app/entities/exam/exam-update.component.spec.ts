@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 
-import { EducationTestModule } from '../../../test.module';
+import { EduOnlineTestModule } from '../../../test.module';
 import { ExamUpdateComponent } from 'app/entities/exam/exam-update.component';
 import { ExamService } from 'app/entities/exam/exam.service';
 import { Exam } from 'app/shared/model/exam.model';
@@ -16,7 +16,7 @@ describe('Component Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [EducationTestModule],
+        imports: [EduOnlineTestModule],
         declarations: [ExamUpdateComponent],
         providers: [FormBuilder],
       })

@@ -1,4 +1,4 @@
-# education
+# eduOnline
 
 > ## 🛠 Blueprint In Active Development
 >

@@ -4,50 +4,49 @@
     {
       "fieldName": "name",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required",
-        "minlength",
-        "maxlength"
-      ],
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
       "fieldValidateRulesMinlength": "1",
       "fieldValidateRulesMaxlength": "50"
     },
     {
       "fieldName": "description",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required",
-        "minlength",
-        "maxlength"
-      ],
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
       "fieldValidateRulesMinlength": "1",
       "fieldValidateRulesMaxlength": "500"
     },
     {
       "fieldName": "startDate",
       "fieldType": "LocalDate",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "endDate",
       "fieldType": "LocalDate",
-      "fieldValidateRules": [
-        "required"
-      ]
-    },
-    {
-      "fieldName": "isActive",
-      "fieldType": "Boolean"
+      "fieldValidateRules": ["required"]
     }
   ],
-  "relationships": [],
-  "changelogDate": "20230514131111",
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "courseModule",
+      "otherEntityRelationshipName": "course",
+      "relationshipName": "courseModule"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "student",
+      "otherEntityRelationshipName": "courses",
+      "relationshipName": "students",
+      "otherEntityField": "name",
+      "ownerSide": false
+    }
+  ],
+  "changelogDate": "20230521153746",
   "entityTableName": "course",
-  "dto": "no",
-  "pagination": "no",
-  "service": "no",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

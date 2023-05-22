@@ -40,7 +40,8 @@ export const studentRoute: Routes = [
     component: StudentComponent,
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'educationApp.student.home.title',
+      defaultSort: 'id,asc',
+      pageTitle: 'eduOnlineApp.student.home.title',
     },
     canActivate: [UserRouteAccessService],
   },
@@ -52,7 +53,7 @@ export const studentRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'educationApp.student.home.title',
+      pageTitle: 'eduOnlineApp.student.home.title',
     },
     canActivate: [UserRouteAccessService],
   },
@@ -64,7 +65,7 @@ export const studentRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'educationApp.student.home.title',
+      pageTitle: 'eduOnlineApp.student.home.title',
     },
     canActivate: [UserRouteAccessService],
   },
@@ -76,7 +77,7 @@ export const studentRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'educationApp.student.home.title',
+      pageTitle: 'eduOnlineApp.student.home.title',
     },
     canActivate: [UserRouteAccessService],
   },

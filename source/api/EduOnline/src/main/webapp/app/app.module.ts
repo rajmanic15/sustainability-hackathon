@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import './vendor';
-import { EducationSharedModule } from 'app/shared/shared.module';
-import { EducationCoreModule } from 'app/core/core.module';
-import { EducationAppRoutingModule } from './app-routing.module';
-import { EducationHomeModule } from './home/home.module';
-import { EducationEntityModule } from './entities/entity.module';
+import { EduOnlineSharedModule } from 'app/shared/shared.module';
+import { EduOnlineCoreModule } from 'app/core/core.module';
+import { EduOnlineAppRoutingModule } from './app-routing.module';
+import { EduOnlineHomeModule } from './home/home.module';
+import { EduOnlineEntityModule } from './entities/entity.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
@@ -18,14 +18,14 @@ import { ErrorComponent } from './layouts/error/error.component';
 @NgModule({
   imports: [
     BrowserModule,
-    EducationSharedModule,
-    EducationCoreModule,
-    EducationHomeModule,
+    EduOnlineSharedModule,
+    EduOnlineCoreModule,
+    EduOnlineHomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
-    EducationEntityModule,
-    EducationAppRoutingModule,
+    EduOnlineEntityModule,
+    EduOnlineAppRoutingModule,
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
   bootstrap: [MainComponent],
 })
-export class EducationAppModule {}
+export class EduOnlineAppModule {}

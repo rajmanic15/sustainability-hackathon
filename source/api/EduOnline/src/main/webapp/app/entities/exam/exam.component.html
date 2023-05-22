@@ -1,10 +1,10 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="educationApp.exam.home.title">Exams</span>
+        <span jhiTranslate="eduOnlineApp.exam.home.title">Exams</span>
 
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-exam" [routerLink]="['/exam/new']">
             <fa-icon icon="plus"></fa-icon>
-            <span  jhiTranslate="educationApp.exam.home.createLabel">
+            <span  jhiTranslate="eduOnlineApp.exam.home.createLabel">
             Create a new Exam
             </span>
         </button>
@@ -15,16 +15,17 @@
     <jhi-alert></jhi-alert>
 
     <div class="alert alert-warning" id="no-result" *ngIf="exams?.length === 0">
-        <span jhiTranslate="educationApp.exam.home.notFound">No exams found</span>
+        <span jhiTranslate="eduOnlineApp.exam.home.notFound">No exams found</span>
     </div>
 
     <div class="table-responsive" id="entities" *ngIf="exams && exams.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr>
-                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="educationApp.exam.name">Name</span></th>
-                    <th scope="col" ><span jhiTranslate="educationApp.exam.description">Description</span></th>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="name"><span jhiTranslate="eduOnlineApp.exam.name">Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="description"><span jhiTranslate="eduOnlineApp.exam.description">Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="courseName"><span jhiTranslate="eduOnlineApp.exam.course">Course</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -33,6 +34,11 @@
                     <td><a [routerLink]="['/exam', exam.id, 'view']">{{ exam.id }}</a></td>
                     <td>{{ exam.name }}</td>
                     <td>{{ exam.description }}</td>
+                    <td>
+                        <div *ngIf="exam.courseId">
+                            <a [routerLink]="['/course', exam.courseId , 'view']" >{{ exam.courseName }}</a>
+                        </div>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
@@ -59,5 +65,15 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div *ngIf="exams && exams.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
     </div>
 </div>

@@ -1,0 +1,40 @@
+<h4 class="title">Prepare Questions from ChatGPT</h4>
+<div class="container">
+
+    <div class="testmodule">
+        <h3>C# Programming</h3>
+        <br>
+        <h5>10 Questions</h5>
+        <a mat-list-item >
+        <button mat-button class="my-button" (click)="GetQuestions('c#')">Get Questions</button></a>
+    </div>
+  
+    <div class="testmodule">
+        <h3>C++ Programming</h3>
+        <br>
+        <h5>10 Questions</h5>
+        <button mat-button class="my-button" (click)="GetQuestions('c++')">Get Questions</button>
+    </div>
+
+    <div class="testmodule">
+        <h3>Java</h3>
+        <br>
+        <h5>10 Questions</h5>
+        <button mat-button class="my-button" (click)="GetQuestions('java')">Get Questions</button>
+    </div>
+
+
+  </div>
+  <div [formGroup]="itemsForm">
+    <ol>
+      <li *ngFor="let control of itemControls; let i = index"  class="textboxxlist">
+        <input class="textboxx" type="text" [formControl]="getFormControl(control)">
+      </li>
+    </ol>
+  </div>
+  <button mat-button class="my-button1" [disabled]="isDisabled()" (click)="onSubmit()">Submit Questions</button>
+
+  <app-popup [title]="'Notification'" [show]="showpopup">
+    Submitted Successfully
+      </app-popup>
+  

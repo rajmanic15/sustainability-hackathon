@@ -56,8 +56,8 @@ import { Component, Input } from '@angular/core';
       }
       .popup-content {
         margin-top: 20px;
-        align-items:center;
-        margin-left: 100px;
+        align-items:left;
+        margin-left: 50px;
       }
     `,
   ],

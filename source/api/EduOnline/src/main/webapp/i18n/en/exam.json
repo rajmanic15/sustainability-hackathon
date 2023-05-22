@@ -1,5 +1,5 @@
 {
-  "educationApp": {
+  "eduOnlineApp": {
     "exam": {
       "home": {
         "title": "Exams",
@@ -17,7 +17,9 @@
         "title": "Exam"
       },
       "name": "Name",
-      "description": "Description"
+      "description": "Description",
+      "course": "Course",
+      "question": "Question"
     }
   }
 }

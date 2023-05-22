@@ -4,32 +4,39 @@
     {
       "fieldName": "name",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required",
-        "minlength",
-        "maxlength"
-      ],
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
       "fieldValidateRulesMinlength": "1",
       "fieldValidateRulesMaxlength": "50"
     },
     {
       "fieldName": "description",
       "fieldType": "String",
-      "fieldValidateRules": [
-        "required",
-        "minlength",
-        "maxlength"
-      ],
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
       "fieldValidateRulesMinlength": "1",
       "fieldValidateRulesMaxlength": "500"
     }
   ],
-  "relationships": [],
-  "changelogDate": "20230514131211",
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "course",
+      "otherEntityRelationshipName": "exam",
+      "relationshipName": "course",
+      "otherEntityField": "name",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "question",
+      "otherEntityRelationshipName": "exam",
+      "relationshipName": "question"
+    }
+  ],
+  "changelogDate": "20230521153846",
   "entityTableName": "exam",
-  "dto": "no",
-  "pagination": "no",
-  "service": "no",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

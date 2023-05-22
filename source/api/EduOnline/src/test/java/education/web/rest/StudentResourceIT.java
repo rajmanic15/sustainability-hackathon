@@ -2,6 +2,7 @@ package education.web.rest;
 
 
 import education.domain.Student;
+import education.domain.Course;
 import education.repository.StudentRepository;
 
 import io.micronaut.context.annotation.Property;
@@ -29,6 +30,8 @@ import java.time.temporal.ChronoUnit;
 import java.sql.Connection;
 import java.util.List;
 
+import education.service.dto.StudentDTO;
+import education.service.mapper.StudentMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,6 +43,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Property(name = "micronaut.security.enabled", value = "false")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class StudentResourceIT {
+
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_QUALIFICATIONS = "AAAAAAAAAA";
+    private static final String UPDATED_QUALIFICATIONS = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_AGE = 10;
     private static final Integer UPDATED_AGE = 11;
@@ -53,6 +62,8 @@ public class StudentResourceIT {
     private static final String DEFAULT_PARENT_EMAIL = "AAAAAAAAAA";
     private static final String UPDATED_PARENT_EMAIL = "BBBBBBBBBB";
 
+    @Inject
+    private StudentMapper studentMapper;
     @Inject
     private StudentRepository studentRepository;
 
@@ -85,10 +96,25 @@ public class StudentResourceIT {
      */
     public static Student createEntity(TransactionOperations<Connection> transactionManager, EntityManager em) {
         Student student = new Student()
+            .name(DEFAULT_NAME)
+            .qualifications(DEFAULT_QUALIFICATIONS)
             .age(DEFAULT_AGE)
             .grade(DEFAULT_GRADE)
             .dateOfBirth(DEFAULT_DATE_OF_BIRTH)
             .parentEmail(DEFAULT_PARENT_EMAIL);
+        // Add required entity
+        Course course;
+        if (TestUtil.findAll(transactionManager, em, Course.class).isEmpty()) {
+            course = CourseResourceIT.createEntity(transactionManager, em);
+            transactionManager.executeWrite(status -> {
+                em.persist(course);
+                em.flush();
+                return course;
+            });
+        } else {
+            course = TestUtil.findAll(transactionManager, em, Course.class).get(0);
+        }
+        student.getCourses().add(course);
         return student;
     }
 
@@ -100,6 +126,8 @@ public class StudentResourceIT {
      */
     public static void deleteAll(TransactionOperations<Connection> transactionManager, EntityManager em) {
         TestUtil.removeAll(transactionManager, em, Student.class);
+        // Delete required entities
+        CourseResourceIT.deleteAll(transactionManager, em);
     }
 
 
@@ -107,9 +135,10 @@ public class StudentResourceIT {
     public void createStudent() throws Exception {
         int databaseSizeBeforeCreate = studentRepository.findAll().size();
 
+        StudentDTO studentDTO = studentMapper.toDto(student);
 
         // Create the Student
-        HttpResponse<Student> response = client.exchange(HttpRequest.POST("/api/students", student), Student.class).blockingFirst();
+        HttpResponse<StudentDTO> response = client.exchange(HttpRequest.POST("/api/students", studentDTO), StudentDTO.class).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.CREATED.getCode());
 
@@ -118,6 +147,8 @@ public class StudentResourceIT {
         assertThat(studentList).hasSize(databaseSizeBeforeCreate + 1);
         Student testStudent = studentList.get(studentList.size() - 1);
 
+        assertThat(testStudent.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testStudent.getQualifications()).isEqualTo(DEFAULT_QUALIFICATIONS);
         assertThat(testStudent.getAge()).isEqualTo(DEFAULT_AGE);
         assertThat(testStudent.getGrade()).isEqualTo(DEFAULT_GRADE);
         assertThat(testStudent.getDateOfBirth()).isEqualTo(DEFAULT_DATE_OF_BIRTH);
@@ -130,11 +161,12 @@ public class StudentResourceIT {
 
         // Create the Student with an existing ID
         student.setId(1L);
+        StudentDTO studentDTO = studentMapper.toDto(student);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         @SuppressWarnings("unchecked")
-        HttpResponse<Student> response = client.exchange(HttpRequest.POST("/api/students", student), Student.class)
-            .onErrorReturn(t -> (HttpResponse<Student>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<StudentDTO> response = client.exchange(HttpRequest.POST("/api/students", studentDTO), StudentDTO.class)
+            .onErrorReturn(t -> (HttpResponse<StudentDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -145,16 +177,55 @@ public class StudentResourceIT {
 
 
     @Test
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = studentRepository.findAll().size();
+        // set the field null
+        student.setName(null);
+
+        // Create the Student, which fails.
+        StudentDTO studentDTO = studentMapper.toDto(student);
+
+        @SuppressWarnings("unchecked")
+        HttpResponse<StudentDTO> response = client.exchange(HttpRequest.POST("/api/students", studentDTO), StudentDTO.class)
+            .onErrorReturn(t -> (HttpResponse<StudentDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+
+        assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
+
+        List<Student> studentList = studentRepository.findAll();
+        assertThat(studentList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    public void checkQualificationsIsRequired() throws Exception {
+        int databaseSizeBeforeTest = studentRepository.findAll().size();
+        // set the field null
+        student.setQualifications(null);
+
+        // Create the Student, which fails.
+        StudentDTO studentDTO = studentMapper.toDto(student);
+
+        @SuppressWarnings("unchecked")
+        HttpResponse<StudentDTO> response = client.exchange(HttpRequest.POST("/api/students", studentDTO), StudentDTO.class)
+            .onErrorReturn(t -> (HttpResponse<StudentDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+
+        assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
+
+        List<Student> studentList = studentRepository.findAll();
+        assertThat(studentList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
     public void checkGradeIsRequired() throws Exception {
         int databaseSizeBeforeTest = studentRepository.findAll().size();
         // set the field null
         student.setGrade(null);
 
         // Create the Student, which fails.
+        StudentDTO studentDTO = studentMapper.toDto(student);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Student> response = client.exchange(HttpRequest.POST("/api/students", student), Student.class)
-            .onErrorReturn(t -> (HttpResponse<Student>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<StudentDTO> response = client.exchange(HttpRequest.POST("/api/students", studentDTO), StudentDTO.class)
+            .onErrorReturn(t -> (HttpResponse<StudentDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -169,10 +240,11 @@ public class StudentResourceIT {
         student.setDateOfBirth(null);
 
         // Create the Student, which fails.
+        StudentDTO studentDTO = studentMapper.toDto(student);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Student> response = client.exchange(HttpRequest.POST("/api/students", student), Student.class)
-            .onErrorReturn(t -> (HttpResponse<Student>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<StudentDTO> response = client.exchange(HttpRequest.POST("/api/students", studentDTO), StudentDTO.class)
+            .onErrorReturn(t -> (HttpResponse<StudentDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -187,10 +259,11 @@ public class StudentResourceIT {
         student.setParentEmail(null);
 
         // Create the Student, which fails.
+        StudentDTO studentDTO = studentMapper.toDto(student);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Student> response = client.exchange(HttpRequest.POST("/api/students", student), Student.class)
-            .onErrorReturn(t -> (HttpResponse<Student>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<StudentDTO> response = client.exchange(HttpRequest.POST("/api/students", studentDTO), StudentDTO.class)
+            .onErrorReturn(t -> (HttpResponse<StudentDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -204,10 +277,12 @@ public class StudentResourceIT {
         studentRepository.saveAndFlush(student);
 
         // Get the studentList w/ all the students
-        List<Student> students = client.retrieve(HttpRequest.GET("/api/students?eagerload=true"), Argument.listOf(Student.class)).blockingFirst();
-        Student testStudent = students.get(0);
+        List<StudentDTO> students = client.retrieve(HttpRequest.GET("/api/students?eagerload=true"), Argument.listOf(StudentDTO.class)).blockingFirst();
+        StudentDTO testStudent = students.get(0);
 
 
+        assertThat(testStudent.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testStudent.getQualifications()).isEqualTo(DEFAULT_QUALIFICATIONS);
         assertThat(testStudent.getAge()).isEqualTo(DEFAULT_AGE);
         assertThat(testStudent.getGrade()).isEqualTo(DEFAULT_GRADE);
         assertThat(testStudent.getDateOfBirth()).isEqualTo(DEFAULT_DATE_OF_BIRTH);
@@ -220,9 +295,11 @@ public class StudentResourceIT {
         studentRepository.saveAndFlush(student);
 
         // Get the student
-        Student testStudent = client.retrieve(HttpRequest.GET("/api/students/" + student.getId()), Student.class).blockingFirst();
+        StudentDTO testStudent = client.retrieve(HttpRequest.GET("/api/students/" + student.getId()), StudentDTO.class).blockingFirst();
 
 
+        assertThat(testStudent.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testStudent.getQualifications()).isEqualTo(DEFAULT_QUALIFICATIONS);
         assertThat(testStudent.getAge()).isEqualTo(DEFAULT_AGE);
         assertThat(testStudent.getGrade()).isEqualTo(DEFAULT_GRADE);
         assertThat(testStudent.getDateOfBirth()).isEqualTo(DEFAULT_DATE_OF_BIRTH);
@@ -233,8 +310,8 @@ public class StudentResourceIT {
     public void getNonExistingStudent() throws Exception {
         // Get the student
         @SuppressWarnings("unchecked")
-        HttpResponse<Student> response = client.exchange(HttpRequest.GET("/api/students/"+ Long.MAX_VALUE), Student.class)
-            .onErrorReturn(t -> (HttpResponse<Student>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<StudentDTO> response = client.exchange(HttpRequest.GET("/api/students/"+ Long.MAX_VALUE), StudentDTO.class)
+            .onErrorReturn(t -> (HttpResponse<StudentDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.NOT_FOUND.getCode());
     }
@@ -250,14 +327,17 @@ public class StudentResourceIT {
         Student updatedStudent = studentRepository.findById(student.getId()).get();
 
         updatedStudent
+            .name(UPDATED_NAME)
+            .qualifications(UPDATED_QUALIFICATIONS)
             .age(UPDATED_AGE)
             .grade(UPDATED_GRADE)
             .dateOfBirth(UPDATED_DATE_OF_BIRTH)
             .parentEmail(UPDATED_PARENT_EMAIL);
+        StudentDTO updatedStudentDTO = studentMapper.toDto(updatedStudent);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Student> response = client.exchange(HttpRequest.PUT("/api/students", updatedStudent), Student.class)
-            .onErrorReturn(t -> (HttpResponse<Student>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<StudentDTO> response = client.exchange(HttpRequest.PUT("/api/students", updatedStudentDTO), StudentDTO.class)
+            .onErrorReturn(t -> (HttpResponse<StudentDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.OK.getCode());
 
@@ -266,6 +346,8 @@ public class StudentResourceIT {
         assertThat(studentList).hasSize(databaseSizeBeforeUpdate);
         Student testStudent = studentList.get(studentList.size() - 1);
 
+        assertThat(testStudent.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testStudent.getQualifications()).isEqualTo(UPDATED_QUALIFICATIONS);
         assertThat(testStudent.getAge()).isEqualTo(UPDATED_AGE);
         assertThat(testStudent.getGrade()).isEqualTo(UPDATED_GRADE);
         assertThat(testStudent.getDateOfBirth()).isEqualTo(UPDATED_DATE_OF_BIRTH);
@@ -277,11 +359,12 @@ public class StudentResourceIT {
         int databaseSizeBeforeUpdate = studentRepository.findAll().size();
 
         // Create the Student
+        StudentDTO studentDTO = studentMapper.toDto(student);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         @SuppressWarnings("unchecked")
-        HttpResponse<Student> response = client.exchange(HttpRequest.PUT("/api/students", student), Student.class)
-            .onErrorReturn(t -> (HttpResponse<Student>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<StudentDTO> response = client.exchange(HttpRequest.PUT("/api/students", studentDTO), StudentDTO.class)
+            .onErrorReturn(t -> (HttpResponse<StudentDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -299,8 +382,8 @@ public class StudentResourceIT {
 
         // Delete the student
         @SuppressWarnings("unchecked")
-        HttpResponse<Student> response = client.exchange(HttpRequest.DELETE("/api/students/"+ student.getId()), Student.class)
-            .onErrorReturn(t -> (HttpResponse<Student>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<StudentDTO> response = client.exchange(HttpRequest.DELETE("/api/students/"+ student.getId()), StudentDTO.class)
+            .onErrorReturn(t -> (HttpResponse<StudentDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.NO_CONTENT.getCode());
 

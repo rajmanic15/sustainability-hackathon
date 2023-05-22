@@ -40,7 +40,8 @@ export const courseRoute: Routes = [
     component: CourseComponent,
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'educationApp.course.home.title',
+      defaultSort: 'id,asc',
+      pageTitle: 'eduOnlineApp.course.home.title',
     },
     canActivate: [UserRouteAccessService],
   },
@@ -52,7 +53,7 @@ export const courseRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'educationApp.course.home.title',
+      pageTitle: 'eduOnlineApp.course.home.title',
     },
     canActivate: [UserRouteAccessService],
   },
@@ -64,7 +65,7 @@ export const courseRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'educationApp.course.home.title',
+      pageTitle: 'eduOnlineApp.course.home.title',
     },
     canActivate: [UserRouteAccessService],
   },
@@ -76,7 +77,7 @@ export const courseRoute: Routes = [
     },
     data: {
       authorities: [Authority.USER],
-      pageTitle: 'educationApp.course.home.title',
+      pageTitle: 'eduOnlineApp.course.home.title',
     },
     canActivate: [UserRouteAccessService],
   },

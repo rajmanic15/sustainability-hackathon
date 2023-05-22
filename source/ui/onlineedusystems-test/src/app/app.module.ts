@@ -18,7 +18,7 @@ import { MatTableModule } from '@angular/material/table';
 import { AddUserComponent } from './add-user/add-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -38,8 +38,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PopupComponent } from './popup/popup.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
+import { HttpClientModule } from '@angular/common/http';
+import { PreparequestionsComponent } from './preparequestions/preparequestions.component';
+import { SubmitpopupComponent } from './submitpopup/submitpopup.component';
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
@@ -53,12 +55,15 @@ import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
     LearnerContentComponent,
     TestModuleComponent,
     AttemptTestComponent,
-    PopupComponent
+    PopupComponent,
+    PreparequestionsComponent,
+    SubmitpopupComponent
   ],
   imports: [
     BrowserModule,
-    NgxChartsModule,
+    ReactiveFormsModule,
     MatDialogModule,
+    HttpClientModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatCardModule,

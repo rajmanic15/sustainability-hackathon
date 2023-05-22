@@ -15,15 +15,12 @@
 # ===================================================================
 micronaut:
   application:
-    name: education
+    name: eduOnline
   router:
     static-resources:
       client:
         paths: classpath:static
         mapping: /**
-      swagger:
-        paths: classpath:META-INF/swagger
-        mapping: /swagger/**
   metrics:
     export:
       # Prometheus is the default metrics backend
@@ -64,11 +61,7 @@ micronaut:
         access: isAnonymous()
       - pattern: /content/**
         access: isAnonymous()
-      - pattern: /swagger-ui/*.*.*
-        access: isAnonymous()
-      - pattern: /swagger-ui/*.*
-        access: isAnonymous()
-      - pattern: /swagger-ui/**
+      - pattern: /swagger-ui/index.html
         access: isAnonymous()
       - pattern: /favicon.ico
         access: isAnonymous()
@@ -146,13 +139,13 @@ info:
 
 jhipster:
   clientApp:
-    name: 'educationApp'
+    name: 'eduOnlineApp'
   mail:
-    from: education@localhost
+    from: eduOnline@localhost
   swagger:
     default-include-pattern: /api/.*
-    title: education API
-    description: education API documentation
+    title: eduOnline API
+    description: eduOnline API documentation
     version: 0.0.1
     terms-of-service-url:
     contact-name:

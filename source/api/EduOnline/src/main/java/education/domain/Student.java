@@ -1,17 +1,22 @@
 package education.domain;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Student.
  */
 @Entity
 @Table(name = "student")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,6 +25,16 @@ public class Student implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
+
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "name", length = 50, nullable = false)
+    private String name;
+
+    @NotNull
+    @Size(min = 1, max = 500)
+    @Column(name = "qualifications", length = 500, nullable = false)
+    private String qualifications;
 
     @Min(value = 10)
     @Max(value = 100)
@@ -45,6 +60,14 @@ public class Student implements Serializable {
     @JoinColumn(unique = true)
     private User internalUser;
 
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @NotNull
+    @JoinTable(name = "student_courses",
+               joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "courses_id", referencedColumnName = "id"))
+    private Set<Course> courses = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -52,6 +75,32 @@ public class Student implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Student name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getQualifications() {
+        return qualifications;
+    }
+
+    public Student qualifications(String qualifications) {
+        this.qualifications = qualifications;
+        return this;
+    }
+
+    public void setQualifications(String qualifications) {
+        this.qualifications = qualifications;
     }
 
     public Integer getAge() {
@@ -118,6 +167,31 @@ public class Student implements Serializable {
     public void setInternalUser(User user) {
         this.internalUser = user;
     }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public Student courses(Set<Course> courses) {
+        this.courses = courses;
+        return this;
+    }
+
+    public Student addCourses(Course course) {
+        this.courses.add(course);
+        course.getStudents().add(this);
+        return this;
+    }
+
+    public Student removeCourses(Course course) {
+        this.courses.remove(course);
+        course.getStudents().remove(this);
+        return this;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -140,6 +214,8 @@ public class Student implements Serializable {
     public String toString() {
         return "Student{" +
             "id=" + getId() +
+            ", name='" + getName() + "'" +
+            ", qualifications='" + getQualifications() + "'" +
             ", age=" + getAge() +
             ", grade=" + getGrade() +
             ", dateOfBirth='" + getDateOfBirth() + "'" +

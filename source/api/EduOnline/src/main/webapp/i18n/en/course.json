@@ -1,5 +1,5 @@
 {
-  "educationApp": {
+  "eduOnlineApp": {
     "course": {
       "home": {
         "title": "Courses",
@@ -20,7 +20,8 @@
       "description": "Description",
       "startDate": "Start Date",
       "endDate": "End Date",
-      "isActive": "Is Active"
+      "courseModule": "Course Module",
+      "students": "Students"
     }
   }
 }

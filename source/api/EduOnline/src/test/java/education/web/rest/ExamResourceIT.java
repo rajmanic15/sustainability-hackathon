@@ -27,6 +27,8 @@ import javax.persistence.EntityManager;
 import java.sql.Connection;
 import java.util.List;
 
+import education.service.dto.ExamDTO;
+import education.service.mapper.ExamMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,6 +47,8 @@ public class ExamResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
+    @Inject
+    private ExamMapper examMapper;
     @Inject
     private ExamRepository examRepository;
 
@@ -97,9 +101,10 @@ public class ExamResourceIT {
     public void createExam() throws Exception {
         int databaseSizeBeforeCreate = examRepository.findAll().size();
 
+        ExamDTO examDTO = examMapper.toDto(exam);
 
         // Create the Exam
-        HttpResponse<Exam> response = client.exchange(HttpRequest.POST("/api/exams", exam), Exam.class).blockingFirst();
+        HttpResponse<ExamDTO> response = client.exchange(HttpRequest.POST("/api/exams", examDTO), ExamDTO.class).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.CREATED.getCode());
 
@@ -118,11 +123,12 @@ public class ExamResourceIT {
 
         // Create the Exam with an existing ID
         exam.setId(1L);
+        ExamDTO examDTO = examMapper.toDto(exam);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         @SuppressWarnings("unchecked")
-        HttpResponse<Exam> response = client.exchange(HttpRequest.POST("/api/exams", exam), Exam.class)
-            .onErrorReturn(t -> (HttpResponse<Exam>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<ExamDTO> response = client.exchange(HttpRequest.POST("/api/exams", examDTO), ExamDTO.class)
+            .onErrorReturn(t -> (HttpResponse<ExamDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -139,10 +145,11 @@ public class ExamResourceIT {
         exam.setName(null);
 
         // Create the Exam, which fails.
+        ExamDTO examDTO = examMapper.toDto(exam);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Exam> response = client.exchange(HttpRequest.POST("/api/exams", exam), Exam.class)
-            .onErrorReturn(t -> (HttpResponse<Exam>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<ExamDTO> response = client.exchange(HttpRequest.POST("/api/exams", examDTO), ExamDTO.class)
+            .onErrorReturn(t -> (HttpResponse<ExamDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -157,10 +164,11 @@ public class ExamResourceIT {
         exam.setDescription(null);
 
         // Create the Exam, which fails.
+        ExamDTO examDTO = examMapper.toDto(exam);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Exam> response = client.exchange(HttpRequest.POST("/api/exams", exam), Exam.class)
-            .onErrorReturn(t -> (HttpResponse<Exam>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<ExamDTO> response = client.exchange(HttpRequest.POST("/api/exams", examDTO), ExamDTO.class)
+            .onErrorReturn(t -> (HttpResponse<ExamDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -174,8 +182,8 @@ public class ExamResourceIT {
         examRepository.saveAndFlush(exam);
 
         // Get the examList w/ all the exams
-        List<Exam> exams = client.retrieve(HttpRequest.GET("/api/exams?eagerload=true"), Argument.listOf(Exam.class)).blockingFirst();
-        Exam testExam = exams.get(0);
+        List<ExamDTO> exams = client.retrieve(HttpRequest.GET("/api/exams?eagerload=true"), Argument.listOf(ExamDTO.class)).blockingFirst();
+        ExamDTO testExam = exams.get(0);
 
 
         assertThat(testExam.getName()).isEqualTo(DEFAULT_NAME);
@@ -188,7 +196,7 @@ public class ExamResourceIT {
         examRepository.saveAndFlush(exam);
 
         // Get the exam
-        Exam testExam = client.retrieve(HttpRequest.GET("/api/exams/" + exam.getId()), Exam.class).blockingFirst();
+        ExamDTO testExam = client.retrieve(HttpRequest.GET("/api/exams/" + exam.getId()), ExamDTO.class).blockingFirst();
 
 
         assertThat(testExam.getName()).isEqualTo(DEFAULT_NAME);
@@ -199,8 +207,8 @@ public class ExamResourceIT {
     public void getNonExistingExam() throws Exception {
         // Get the exam
         @SuppressWarnings("unchecked")
-        HttpResponse<Exam> response = client.exchange(HttpRequest.GET("/api/exams/"+ Long.MAX_VALUE), Exam.class)
-            .onErrorReturn(t -> (HttpResponse<Exam>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<ExamDTO> response = client.exchange(HttpRequest.GET("/api/exams/"+ Long.MAX_VALUE), ExamDTO.class)
+            .onErrorReturn(t -> (HttpResponse<ExamDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.NOT_FOUND.getCode());
     }
@@ -218,10 +226,11 @@ public class ExamResourceIT {
         updatedExam
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION);
+        ExamDTO updatedExamDTO = examMapper.toDto(updatedExam);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Exam> response = client.exchange(HttpRequest.PUT("/api/exams", updatedExam), Exam.class)
-            .onErrorReturn(t -> (HttpResponse<Exam>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<ExamDTO> response = client.exchange(HttpRequest.PUT("/api/exams", updatedExamDTO), ExamDTO.class)
+            .onErrorReturn(t -> (HttpResponse<ExamDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.OK.getCode());
 
@@ -239,11 +248,12 @@ public class ExamResourceIT {
         int databaseSizeBeforeUpdate = examRepository.findAll().size();
 
         // Create the Exam
+        ExamDTO examDTO = examMapper.toDto(exam);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         @SuppressWarnings("unchecked")
-        HttpResponse<Exam> response = client.exchange(HttpRequest.PUT("/api/exams", exam), Exam.class)
-            .onErrorReturn(t -> (HttpResponse<Exam>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<ExamDTO> response = client.exchange(HttpRequest.PUT("/api/exams", examDTO), ExamDTO.class)
+            .onErrorReturn(t -> (HttpResponse<ExamDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -261,8 +271,8 @@ public class ExamResourceIT {
 
         // Delete the exam
         @SuppressWarnings("unchecked")
-        HttpResponse<Exam> response = client.exchange(HttpRequest.DELETE("/api/exams/"+ exam.getId()), Exam.class)
-            .onErrorReturn(t -> (HttpResponse<Exam>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<ExamDTO> response = client.exchange(HttpRequest.DELETE("/api/exams/"+ exam.getId()), ExamDTO.class)
+            .onErrorReturn(t -> (HttpResponse<ExamDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.NO_CONTENT.getCode());
 

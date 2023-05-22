@@ -1,5 +1,5 @@
 {
-  "educationApp": {
+  "eduOnlineApp": {
     "student": {
       "home": {
         "title": "Students",
@@ -16,11 +16,14 @@
       "detail": {
         "title": "Student"
       },
+      "name": "Name",
+      "qualifications": "Qualifications",
       "age": "Age",
       "grade": "Grade",
       "dateOfBirth": "Date Of Birth",
       "parentEmail": "Parent Email",
-      "internalUser": "Internal User"
+      "internalUser": "Internal User",
+      "courses": "Courses"
     }
   }
 }

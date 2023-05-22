@@ -1,17 +1,24 @@
 {
   "global": {
-    "title": "Education",
+    "title": "EduOnline",
     "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
     "menu": {
       "home": "Home",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
+        "teacher": "Teacher",
         "student": "Student",
         "course": "Course",
         "exam": "Exam",
-        "enrolmentCourse": "Enrolment Course",
-        "enrolmentExam": "Enrolment Exam",
+        "question": "Question",
+        "questionItem": "Question Item",
+        "answerItem": "Answer Item",
+        "courseModule": "Course Module",
+        "courseUnit": "Course Unit",
+        "courseLearningObjects": "Course Learning Objects",
+        "courseEnrolment": "Course Enrolment",
+        "examRegistration": "Exam Registration",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

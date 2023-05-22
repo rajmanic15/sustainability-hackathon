@@ -10,4 +10,4 @@ pluginManagement {
      }
 }
 
-rootProject.name = "education"
+rootProject.name = "edu-online"

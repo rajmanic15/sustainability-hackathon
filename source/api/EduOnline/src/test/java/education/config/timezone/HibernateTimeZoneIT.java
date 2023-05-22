@@ -1,6 +1,6 @@
 package education.config.timezone;
 
-import education.EducationApp;
+import education.EduOnlineApp;
 import education.repository.timezone.DateTimeWrapper;
 import education.repository.timezone.DateTimeWrapperRepository;
 
@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Integration tests for the UTC Hibernate configuration.
  */
-@MicronautTest(application = EducationApp.class, environments = {"test"})
+@MicronautTest(application = EduOnlineApp.class, environments = {"test"})
 public class HibernateTimeZoneIT {
 
     @Inject DateTimeWrapperRepository dateTimeWrapperRepository;

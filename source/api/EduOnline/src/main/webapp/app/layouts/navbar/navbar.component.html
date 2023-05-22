@@ -1,7 +1,7 @@
 <nav class="navbar navbar-dark navbar-expand-md bg-dark">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
         <span class="logo-img"></span>
-        <span jhiTranslate="global.title" class="navbar-title">Education</span> <span class="navbar-version">{{ version }}</span>
+        <span jhiTranslate="global.title" class="navbar-title">EduOnline</span> <span class="navbar-version">{{ version }}</span>
     </a>
     <a class="navbar-toggler d-lg-none" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
         <fa-icon icon="bars"></fa-icon>
@@ -28,6 +28,12 @@
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
                     <li>
+                        <a class="dropdown-item" routerLink="teacher" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.teacher">Teacher</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="dropdown-item" routerLink="student" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                             <span jhiTranslate="global.menu.entities.student">Student</span>
@@ -46,15 +52,51 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="enrolment-course" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="question" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.enrolmentCourse">Enrolment Course</span>
+                            <span jhiTranslate="global.menu.entities.question">Question</span>
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" routerLink="enrolment-exam" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                        <a class="dropdown-item" routerLink="question-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                            <span jhiTranslate="global.menu.entities.enrolmentExam">Enrolment Exam</span>
+                            <span jhiTranslate="global.menu.entities.questionItem">Question Item</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="answer-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.answerItem">Answer Item</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="course-module" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.courseModule">Course Module</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="course-unit" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.courseUnit">Course Unit</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="course-learning-objects" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.courseLearningObjects">Course Learning Objects</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="course-enrolment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.courseEnrolment">Course Enrolment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="exam-registration" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.examRegistration">Exam Registration</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

@@ -6,6 +6,7 @@ import { CoursesComponent } from './courses/courses.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { HomeComponent } from './home/home.component';
 import { LearnerComponent } from './learner/learner.component';
+import { PreparequestionsComponent } from './preparequestions/preparequestions.component';
 import { TestModuleComponent } from './test-module/test-module.component';
 import { UsersComponent } from './users/users.component';
 
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path:'courses',component:CoursesComponent},
   {path:'learner',component:LearnerComponent},
   {path:'exams',component:TestModuleComponent},
-  {path:'attempttest',component:AttemptTestComponent}
+  {path:'attempttest',component:AttemptTestComponent},
+  {path:'prepare',component:PreparequestionsComponent}
 ];
 
 @NgModule({

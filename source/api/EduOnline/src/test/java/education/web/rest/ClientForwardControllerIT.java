@@ -1,6 +1,6 @@
 package education.web.rest;
 
-import education.EducationApp;
+import education.EduOnlineApp;
 import io.micronaut.context.annotation.Property;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.http.HttpRequest;
@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Integration tests for the {@link education.web.rest.ClientForwardController} REST controller.
  */
-@MicronautTest(application = EducationApp.class)
+@MicronautTest(application = EduOnlineApp.class)
 @Property(name = "spec.name", value = "ClientForwardControllerIT")
 public class ClientForwardControllerIT {
 

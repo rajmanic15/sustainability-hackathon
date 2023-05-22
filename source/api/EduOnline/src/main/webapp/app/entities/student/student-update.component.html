@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-student-heading" jhiTranslate="educationApp.student.home.createOrEditLabel">Create or edit a Student</h2>
+            <h2 id="jhi-student-heading" jhiTranslate="eduOnlineApp.student.home.createOrEditLabel">Create or edit a Student</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
@@ -12,7 +12,47 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="educationApp.student.age" for="field_age">Age</label>
+                    <label class="form-control-label" jhiTranslate="eduOnlineApp.student.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                    <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('name')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('name')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                        This field cannot be longer than 50 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="eduOnlineApp.student.qualifications" for="field_qualifications">Qualifications</label>
+                    <input type="text" class="form-control" name="qualifications" id="field_qualifications"
+                           formControlName="qualifications"/>
+                    <div *ngIf="editForm.get('qualifications')!.invalid && (editForm.get('qualifications')!.dirty || editForm.get('qualifications')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('qualifications')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('qualifications')?.errors?.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('qualifications')?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 500 }">
+                        This field cannot be longer than 500 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="eduOnlineApp.student.age" for="field_age">Age</label>
                     <input type="number" class="form-control" name="age" id="field_age"
                            formControlName="age"/>
                     <div *ngIf="editForm.get('age')!.invalid && (editForm.get('age')!.dirty || editForm.get('age')!.touched)">
@@ -32,7 +72,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="educationApp.student.grade" for="field_grade">Grade</label>
+                    <label class="form-control-label" jhiTranslate="eduOnlineApp.student.grade" for="field_grade">Grade</label>
                     <input type="number" class="form-control" name="grade" id="field_grade"
                            formControlName="grade"/>
                     <div *ngIf="editForm.get('grade')!.invalid && (editForm.get('grade')!.dirty || editForm.get('grade')!.touched)">
@@ -56,7 +96,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="educationApp.student.dateOfBirth" for="field_dateOfBirth">Date Of Birth</label>
+                    <label class="form-control-label" jhiTranslate="eduOnlineApp.student.dateOfBirth" for="field_dateOfBirth">Date Of Birth</label>
                     <div class="d-flex">
                         <input id="field_dateOfBirth" type="datetime-local" class="form-control" name="dateOfBirth" formControlName="dateOfBirth" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
@@ -73,7 +113,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="educationApp.student.parentEmail" for="field_parentEmail">Parent Email</label>
+                    <label class="form-control-label" jhiTranslate="eduOnlineApp.student.parentEmail" for="field_parentEmail">Parent Email</label>
                     <input type="text" class="form-control" name="parentEmail" id="field_parentEmail"
                            formControlName="parentEmail"/>
                     <div *ngIf="editForm.get('parentEmail')!.invalid && (editForm.get('parentEmail')!.dirty || editForm.get('parentEmail')!.touched)">
@@ -93,11 +133,24 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="educationApp.student.internalUser" for="field_internalUser">Internal User</label>
-                    <select class="form-control" id="field_internalUser" name="internalUser" formControlName="internalUser">
+                    <label class="form-control-label" jhiTranslate="eduOnlineApp.student.internalUser" for="field_internalUser">Internal User</label>
+                    <select class="form-control" id="field_internalUser" name="internalUser" formControlName="internalUserId">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="userOption.id === editForm.get('internalUser')!.value?.id ? editForm.get('internalUser')!.value : userOption" *ngFor="let userOption of users; trackBy: trackById">{{ userOption.id }}</option>
+                        <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackById">{{ userOption.id }}</option>
                     </select>
+                </div>
+
+                <div class="form-group">
+                    <label jhiTranslate="eduOnlineApp.student.courses" for="field_courses">Courses</label>
+                    <select class="form-control" id="field_courses" multiple name="courses" formControlName="courses">
+                        <option [ngValue]="getSelected(editForm.get('courses')!.value, courseOption)" *ngFor="let courseOption of courses; trackBy: trackById">{{ courseOption.name }}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('courses')!.invalid && (editForm.get('courses')!.dirty || editForm.get('courses')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('courses')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
                 </div>
             </div>
 

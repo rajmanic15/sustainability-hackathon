@@ -29,6 +29,8 @@ import java.time.ZoneId;
 import java.sql.Connection;
 import java.util.List;
 
+import education.service.dto.CourseDTO;
+import education.service.mapper.CourseMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -53,9 +55,8 @@ public class CourseResourceIT {
     private static final LocalDate DEFAULT_END_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_END_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Boolean DEFAULT_IS_ACTIVE = false;
-    private static final Boolean UPDATED_IS_ACTIVE = true;
-
+    @Inject
+    private CourseMapper courseMapper;
     @Inject
     private CourseRepository courseRepository;
 
@@ -91,8 +92,7 @@ public class CourseResourceIT {
             .name(DEFAULT_NAME)
             .description(DEFAULT_DESCRIPTION)
             .startDate(DEFAULT_START_DATE)
-            .endDate(DEFAULT_END_DATE)
-            .isActive(DEFAULT_IS_ACTIVE);
+            .endDate(DEFAULT_END_DATE);
         return course;
     }
 
@@ -111,9 +111,10 @@ public class CourseResourceIT {
     public void createCourse() throws Exception {
         int databaseSizeBeforeCreate = courseRepository.findAll().size();
 
+        CourseDTO courseDTO = courseMapper.toDto(course);
 
         // Create the Course
-        HttpResponse<Course> response = client.exchange(HttpRequest.POST("/api/courses", course), Course.class).blockingFirst();
+        HttpResponse<CourseDTO> response = client.exchange(HttpRequest.POST("/api/courses", courseDTO), CourseDTO.class).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.CREATED.getCode());
 
@@ -126,7 +127,6 @@ public class CourseResourceIT {
         assertThat(testCourse.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testCourse.getStartDate()).isEqualTo(DEFAULT_START_DATE);
         assertThat(testCourse.getEndDate()).isEqualTo(DEFAULT_END_DATE);
-        assertThat(testCourse.isIsActive()).isEqualTo(DEFAULT_IS_ACTIVE);
     }
 
     @Test
@@ -135,11 +135,12 @@ public class CourseResourceIT {
 
         // Create the Course with an existing ID
         course.setId(1L);
+        CourseDTO courseDTO = courseMapper.toDto(course);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         @SuppressWarnings("unchecked")
-        HttpResponse<Course> response = client.exchange(HttpRequest.POST("/api/courses", course), Course.class)
-            .onErrorReturn(t -> (HttpResponse<Course>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<CourseDTO> response = client.exchange(HttpRequest.POST("/api/courses", courseDTO), CourseDTO.class)
+            .onErrorReturn(t -> (HttpResponse<CourseDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -156,10 +157,11 @@ public class CourseResourceIT {
         course.setName(null);
 
         // Create the Course, which fails.
+        CourseDTO courseDTO = courseMapper.toDto(course);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Course> response = client.exchange(HttpRequest.POST("/api/courses", course), Course.class)
-            .onErrorReturn(t -> (HttpResponse<Course>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<CourseDTO> response = client.exchange(HttpRequest.POST("/api/courses", courseDTO), CourseDTO.class)
+            .onErrorReturn(t -> (HttpResponse<CourseDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -174,10 +176,11 @@ public class CourseResourceIT {
         course.setDescription(null);
 
         // Create the Course, which fails.
+        CourseDTO courseDTO = courseMapper.toDto(course);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Course> response = client.exchange(HttpRequest.POST("/api/courses", course), Course.class)
-            .onErrorReturn(t -> (HttpResponse<Course>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<CourseDTO> response = client.exchange(HttpRequest.POST("/api/courses", courseDTO), CourseDTO.class)
+            .onErrorReturn(t -> (HttpResponse<CourseDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -192,10 +195,11 @@ public class CourseResourceIT {
         course.setStartDate(null);
 
         // Create the Course, which fails.
+        CourseDTO courseDTO = courseMapper.toDto(course);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Course> response = client.exchange(HttpRequest.POST("/api/courses", course), Course.class)
-            .onErrorReturn(t -> (HttpResponse<Course>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<CourseDTO> response = client.exchange(HttpRequest.POST("/api/courses", courseDTO), CourseDTO.class)
+            .onErrorReturn(t -> (HttpResponse<CourseDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -210,10 +214,11 @@ public class CourseResourceIT {
         course.setEndDate(null);
 
         // Create the Course, which fails.
+        CourseDTO courseDTO = courseMapper.toDto(course);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Course> response = client.exchange(HttpRequest.POST("/api/courses", course), Course.class)
-            .onErrorReturn(t -> (HttpResponse<Course>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<CourseDTO> response = client.exchange(HttpRequest.POST("/api/courses", courseDTO), CourseDTO.class)
+            .onErrorReturn(t -> (HttpResponse<CourseDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -227,15 +232,14 @@ public class CourseResourceIT {
         courseRepository.saveAndFlush(course);
 
         // Get the courseList w/ all the courses
-        List<Course> courses = client.retrieve(HttpRequest.GET("/api/courses?eagerload=true"), Argument.listOf(Course.class)).blockingFirst();
-        Course testCourse = courses.get(0);
+        List<CourseDTO> courses = client.retrieve(HttpRequest.GET("/api/courses?eagerload=true"), Argument.listOf(CourseDTO.class)).blockingFirst();
+        CourseDTO testCourse = courses.get(0);
 
 
         assertThat(testCourse.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testCourse.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testCourse.getStartDate()).isEqualTo(DEFAULT_START_DATE);
         assertThat(testCourse.getEndDate()).isEqualTo(DEFAULT_END_DATE);
-        assertThat(testCourse.isIsActive()).isEqualTo(DEFAULT_IS_ACTIVE);
     }
 
     @Test
@@ -244,22 +248,21 @@ public class CourseResourceIT {
         courseRepository.saveAndFlush(course);
 
         // Get the course
-        Course testCourse = client.retrieve(HttpRequest.GET("/api/courses/" + course.getId()), Course.class).blockingFirst();
+        CourseDTO testCourse = client.retrieve(HttpRequest.GET("/api/courses/" + course.getId()), CourseDTO.class).blockingFirst();
 
 
         assertThat(testCourse.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testCourse.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testCourse.getStartDate()).isEqualTo(DEFAULT_START_DATE);
         assertThat(testCourse.getEndDate()).isEqualTo(DEFAULT_END_DATE);
-        assertThat(testCourse.isIsActive()).isEqualTo(DEFAULT_IS_ACTIVE);
     }
 
     @Test
     public void getNonExistingCourse() throws Exception {
         // Get the course
         @SuppressWarnings("unchecked")
-        HttpResponse<Course> response = client.exchange(HttpRequest.GET("/api/courses/"+ Long.MAX_VALUE), Course.class)
-            .onErrorReturn(t -> (HttpResponse<Course>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<CourseDTO> response = client.exchange(HttpRequest.GET("/api/courses/"+ Long.MAX_VALUE), CourseDTO.class)
+            .onErrorReturn(t -> (HttpResponse<CourseDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.NOT_FOUND.getCode());
     }
@@ -278,12 +281,12 @@ public class CourseResourceIT {
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
             .startDate(UPDATED_START_DATE)
-            .endDate(UPDATED_END_DATE)
-            .isActive(UPDATED_IS_ACTIVE);
+            .endDate(UPDATED_END_DATE);
+        CourseDTO updatedCourseDTO = courseMapper.toDto(updatedCourse);
 
         @SuppressWarnings("unchecked")
-        HttpResponse<Course> response = client.exchange(HttpRequest.PUT("/api/courses", updatedCourse), Course.class)
-            .onErrorReturn(t -> (HttpResponse<Course>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<CourseDTO> response = client.exchange(HttpRequest.PUT("/api/courses", updatedCourseDTO), CourseDTO.class)
+            .onErrorReturn(t -> (HttpResponse<CourseDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.OK.getCode());
 
@@ -296,7 +299,6 @@ public class CourseResourceIT {
         assertThat(testCourse.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testCourse.getStartDate()).isEqualTo(UPDATED_START_DATE);
         assertThat(testCourse.getEndDate()).isEqualTo(UPDATED_END_DATE);
-        assertThat(testCourse.isIsActive()).isEqualTo(UPDATED_IS_ACTIVE);
     }
 
     @Test
@@ -304,11 +306,12 @@ public class CourseResourceIT {
         int databaseSizeBeforeUpdate = courseRepository.findAll().size();
 
         // Create the Course
+        CourseDTO courseDTO = courseMapper.toDto(course);
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         @SuppressWarnings("unchecked")
-        HttpResponse<Course> response = client.exchange(HttpRequest.PUT("/api/courses", course), Course.class)
-            .onErrorReturn(t -> (HttpResponse<Course>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<CourseDTO> response = client.exchange(HttpRequest.PUT("/api/courses", courseDTO), CourseDTO.class)
+            .onErrorReturn(t -> (HttpResponse<CourseDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode());
 
@@ -326,8 +329,8 @@ public class CourseResourceIT {
 
         // Delete the course
         @SuppressWarnings("unchecked")
-        HttpResponse<Course> response = client.exchange(HttpRequest.DELETE("/api/courses/"+ course.getId()), Course.class)
-            .onErrorReturn(t -> (HttpResponse<Course>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
+        HttpResponse<CourseDTO> response = client.exchange(HttpRequest.DELETE("/api/courses/"+ course.getId()), CourseDTO.class)
+            .onErrorReturn(t -> (HttpResponse<CourseDTO>) ((HttpClientResponseException) t).getResponse()).blockingFirst();
 
         assertThat(response.status().getCode()).isEqualTo(HttpStatus.NO_CONTENT.getCode());
 

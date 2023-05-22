@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
-import { EducationTestModule } from '../../../test.module';
+import { EduOnlineTestModule } from '../../../test.module';
 import { ExamDetailComponent } from 'app/entities/exam/exam-detail.component';
 import { Exam } from 'app/shared/model/exam.model';
 
@@ -14,7 +14,7 @@ describe('Component Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [EducationTestModule],
+        imports: [EduOnlineTestModule],
         declarations: [ExamDetailComponent],
         providers: [{ provide: ActivatedRoute, useValue: route }],
       })

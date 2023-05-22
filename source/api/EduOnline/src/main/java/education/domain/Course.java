@@ -1,17 +1,23 @@
 package education.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Course.
  */
 @Entity
 @Table(name = "course")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Course implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,8 +45,14 @@ public class Course implements Serializable {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
+    @OneToMany(mappedBy = "course")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<CourseModule> courseModules = new HashSet<>();
+
+    @ManyToMany(mappedBy = "courses")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<Student> students = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -103,17 +115,54 @@ public class Course implements Serializable {
         this.endDate = endDate;
     }
 
-    public Boolean isIsActive() {
-        return isActive;
+    public Set<CourseModule> getCourseModules() {
+        return courseModules;
     }
 
-    public Course isActive(Boolean isActive) {
-        this.isActive = isActive;
+    public Course courseModules(Set<CourseModule> courseModules) {
+        this.courseModules = courseModules;
         return this;
     }
 
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
+    public Course addCourseModule(CourseModule courseModule) {
+        this.courseModules.add(courseModule);
+        courseModule.setCourse(this);
+        return this;
+    }
+
+    public Course removeCourseModule(CourseModule courseModule) {
+        this.courseModules.remove(courseModule);
+        courseModule.setCourse(null);
+        return this;
+    }
+
+    public void setCourseModules(Set<CourseModule> courseModules) {
+        this.courseModules = courseModules;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public Course students(Set<Student> students) {
+        this.students = students;
+        return this;
+    }
+
+    public Course addStudents(Student student) {
+        this.students.add(student);
+        student.getCourses().add(this);
+        return this;
+    }
+
+    public Course removeStudents(Student student) {
+        this.students.remove(student);
+        student.getCourses().remove(this);
+        return this;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -141,7 +190,6 @@ public class Course implements Serializable {
             ", description='" + getDescription() + "'" +
             ", startDate='" + getStartDate() + "'" +
             ", endDate='" + getEndDate() + "'" +
-            ", isActive='" + isIsActive() + "'" +
             "}";
     }
 }

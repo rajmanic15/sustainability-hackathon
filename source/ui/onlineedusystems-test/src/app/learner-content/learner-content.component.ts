@@ -6,9 +6,12 @@ import { Component, ElementRef, Input, OnInit } from '@angular/core';
   styleUrls: ['./learner-content.component.css']
 })
 export class LearnerContentComponent implements OnInit {
+  private utterance: SpeechSynthesisUtterance = new SpeechSynthesisUtterance();
+  private speechSynth: SpeechSynthesis;
+  private isSpeaking = false;
   player: YT.Player | undefined;
   public id1: string = 'IxBMVztdlr4';
-
+  public showpopup=false;
   savePlayer(player1:any) {
     this.player = player1;
     console.log('player instance', player1);
@@ -16,8 +19,21 @@ export class LearnerContentComponent implements OnInit {
   onStateChange(event:any) {
     console.log('player state', event.data);
   }
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef) {
+    this.speechSynth = window.speechSynthesis;
+    let status= localStorage.getItem('audioSupport');
+     console.log(status)
+     if(status!=='no')
+     {
+       this.showpopup=true;
+     }
+  }
   ngOnInit(): void {
+    if(this.content!==undefined)
+    {
+      this.speak(this.content);
+    }
+
     this.currentIndex = this.subtitles.indexOf(this.subtitle || '');
   }
   @Input() id: string | undefined;
@@ -52,6 +68,13 @@ export class LearnerContentComponent implements OnInit {
 
   onPlayerStateChange(event: any) {
     // Handle player state change events (e.g., play, pause, stop)
+  }
+
+  speak(text: string): void {
+    if (!this.isSpeaking) {
+      this.utterance.text = text;
+      this.speechSynth.speak(this.utterance);
+    }
   }
 }
    

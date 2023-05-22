@@ -1,11 +1,11 @@
 version: '2'
 services:
-  education-postgresql:
+  eduonline-postgresql:
     image: postgres:12.3
     # volumes:
-    #     - ~/volumes/jhipster/education/postgresql/:/var/lib/postgresql/data/
+    #     - ~/volumes/jhipster/eduOnline/postgresql/:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=education
+      - POSTGRES_USER=eduOnline
       - POSTGRES_PASSWORD=
       - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
